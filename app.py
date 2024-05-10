@@ -3,6 +3,11 @@ import requests
 from pandas import DataFrame
 
 default_text = "The Minkowski distance or Minkowski metric is a metric in a normed vector space which can be considered as a generalization of both the Euclidean distance and the Manhattan distance. It is named after the Polish mathematician Hermann Minkowski."
+models = [
+    "MoritzLaurer/deberta-v3-large-zeroshot-v2.0",
+    "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+    "facebook/bart-large-mnli",
+]
 
 def request_api(all_inputs):
     with st.spinner('In progress...'):
@@ -30,10 +35,13 @@ for i in range(word_inputs):
     word = st.text_input(f"Word {i+1}:")
     words.append(word)
 
+model = st.selectbox("Select a model:", options=models)
+
 if st.button("Find relevance"):
     all_inputs = {
         "text": text_input,
-        "words": words
+        "words": words,
+        "model": model
     }
     
     if text_input and len(words) > 0 and len(words[0]) > 0:
